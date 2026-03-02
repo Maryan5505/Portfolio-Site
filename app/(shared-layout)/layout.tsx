@@ -1,6 +1,6 @@
-import { Navbar } from "@/components/web/navbar";
+import { Navbar } from "@/components/layout/navbar";
 
-export default function SharedLayout({
+export default async function SharedLayout({
   children,
 }: {
   children: React.ReactNode;

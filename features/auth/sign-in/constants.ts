@@ -1,10 +1,4 @@
-export const FormValues = {
-  name: {
-    name: "name",
-    label: "Full Name",
-    placeholder: "Vlad Mon",
-    type: "text",
-  },
+export const SignInFormValues = {
   email: {
     name: "email",
     label: "Email",
