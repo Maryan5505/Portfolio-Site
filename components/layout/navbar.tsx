@@ -1,8 +1,16 @@
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
 import { ThemeToggle } from "./theme-toggle";
+import { FieldLabel } from "../ui/field";
 
-export function Navbar() {
+interface NavbarProps {
+  user: {
+    id: string;
+    role: "user" | "admin";
+  } | null;
+}
+
+export function Navbar({ user }: NavbarProps) {
   return (
     <nav className="w-full py-5 flex items-center justify-between">
       <div className="flex items-center gap-8">
@@ -24,18 +32,25 @@ export function Navbar() {
           </Link>
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <Link href="/auth/sign-up" className={buttonVariants()}>
-          Sign Up
-        </Link>
-        <Link
-          href="/auth/sign-in"
-          className={buttonVariants({ variant: "secondary" })}
-        >
-          Login
-        </Link>
-        <ThemeToggle />
-      </div>
+      {user ? (
+        <div className="flex-col items-center gap-2">
+          <FieldLabel>User id: {user.id}</FieldLabel>
+          <FieldLabel>User role: {user.role}</FieldLabel>
+        </div>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Link href="/auth/sign-up" className={buttonVariants()}>
+            Sign Up
+          </Link>
+          <Link
+            href="/auth/sign-in"
+            className={buttonVariants({ variant: "secondary" })}
+          >
+            Login
+          </Link>
+        </div>
+      )}
+      <ThemeToggle />
     </nav>
   );
 }

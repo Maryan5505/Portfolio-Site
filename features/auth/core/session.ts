@@ -57,6 +57,8 @@ function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
 
 async function getUserSessionById(sessionId: string) {
   const userRow = await redisClient.get(`session:${sessionId}`);
-  const { success, data: user } = sessionSchema.safeParse(userRow);
+  if (userRow == null) return null;
+  const parsed = JSON.parse(userRow);
+  const { success, data: user } = sessionSchema.safeParse(parsed);
   return success ? user : null;
 }
