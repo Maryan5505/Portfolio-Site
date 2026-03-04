@@ -18,7 +18,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { signInSchema } from "../schemas";
 import { SignInFormValues } from "../constants";
-
+import { signIn } from "../../server/actions";
+import type z from "zod";
+type SignInValues = z.infer<typeof signInSchema>;
 export function SignInForm() {
   const form = useForm({
     resolver: zodResolver(signInSchema),
@@ -28,7 +30,9 @@ export function SignInForm() {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: SignInValues) => {
+    await signIn(values);
+  };
   return (
     <Card>
       <CardHeader>

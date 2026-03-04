@@ -6,7 +6,7 @@ export default async function SharedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
+  const user = await getCurrentUser({ withFullUser: true });
 
   return (
     <>

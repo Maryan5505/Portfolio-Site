@@ -1,12 +1,16 @@
+"use client";
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { ThemeToggle } from "./theme-toggle";
 import { FieldLabel } from "../ui/field";
+import { logOut } from "@/features/auth/server/actions";
 
 interface NavbarProps {
   user: {
     id: string;
     role: "user" | "admin";
+    name: string;
+    email: string;
   } | null;
 }
 
@@ -30,12 +34,29 @@ export function Navbar({ user }: NavbarProps) {
           <Link href="/create" className={buttonVariants({ variant: "ghost" })}>
             Create
           </Link>
+          <Link href="/about" className={buttonVariants({ variant: "ghost" })}>
+            About
+          </Link>
+          <Link
+            href="/schedule"
+            className={buttonVariants({ variant: "ghost" })}
+          >
+            Schedule
+          </Link>
         </div>
       </div>
       {user ? (
-        <div className="flex-col items-center gap-2">
-          <FieldLabel>User id: {user.id}</FieldLabel>
-          <FieldLabel>User role: {user.role}</FieldLabel>
+        <div className="flex items-center gap-2">
+          <div className="flex-col">
+            <FieldLabel>Name: {user.name}</FieldLabel>
+            <FieldLabel>Email: {user.email}</FieldLabel>
+            <FieldLabel>User id: {user.id}</FieldLabel>
+            <FieldLabel>User role: {user.role}</FieldLabel>
+          </div>
+          <form action={logOut}>
+            <Button className={buttonVariants()}>Log out</Button>
+          </form>
+          <ThemeToggle />
         </div>
       ) : (
         <div className="flex items-center gap-2">
@@ -46,11 +67,11 @@ export function Navbar({ user }: NavbarProps) {
             href="/auth/sign-in"
             className={buttonVariants({ variant: "secondary" })}
           >
-            Login
+            Log in
           </Link>
+          <ThemeToggle />
         </div>
       )}
-      <ThemeToggle />
     </nav>
   );
 }
