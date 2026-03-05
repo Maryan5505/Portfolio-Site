@@ -4,6 +4,8 @@ import { Button, buttonVariants } from "../ui/button";
 import { ThemeToggle } from "./theme-toggle";
 import { FieldLabel } from "../ui/field";
 import { logOut } from "@/features/auth/server/actions";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface NavbarProps {
   user: {
@@ -18,31 +20,49 @@ export function Navbar({ user }: NavbarProps) {
   return (
     <nav className="w-full py-5 flex items-center justify-between">
       <div className="flex items-center gap-8">
-        <Link href="/">
-          <h1 className="text-3xl font-bold">
-            Port
-            <span className="text-blue-500">folio</span>
-          </h1>
-        </Link>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link href="/">
+            <h1 className="text-3xl font-bold">
+              Port
+              <span className="text-blue-500">folio</span>
+            </h1>
+          </Link>
+        </motion.div>
         <div className="flex items-center gap-2">
-          <Link href="/" className={buttonVariants({ variant: "ghost" })}>
-            Home
-          </Link>
-          <Link href="/blog" className={buttonVariants({ variant: "ghost" })}>
-            Blog
-          </Link>
-          <Link href="/create" className={buttonVariants({ variant: "ghost" })}>
-            Create
-          </Link>
-          <Link href="/about" className={buttonVariants({ variant: "ghost" })}>
-            About
-          </Link>
-          <Link
-            href="/schedule"
-            className={buttonVariants({ variant: "ghost" })}
-          >
-            Schedule
-          </Link>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link href="/" className={buttonVariants({ variant: "ghost" })}>
+              Home
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link href="/blog" className={buttonVariants({ variant: "ghost" })}>
+              Blog
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              href="/create"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              Create
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              href="/about"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              About
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              href="/schedule"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              Schedule
+            </Link>
+          </motion.div>
         </div>
       </div>
       {user ? (
@@ -60,14 +80,14 @@ export function Navbar({ user }: NavbarProps) {
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <Link href="/auth/sign-up" className={buttonVariants()}>
+          <Link href="/sign-up" className={buttonVariants()}>
             Sign Up
           </Link>
           <Link
-            href="/auth/sign-in"
+            href="/sign-in"
             className={buttonVariants({ variant: "secondary" })}
           >
-            Log in
+            Sign in
           </Link>
           <ThemeToggle />
         </div>

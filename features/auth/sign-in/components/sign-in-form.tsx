@@ -20,6 +20,7 @@ import { signInSchema } from "../schemas";
 import { SignInFormValues } from "../constants";
 import { signIn } from "../../server/actions";
 import type z from "zod";
+import Link from "next/link";
 type SignInValues = z.infer<typeof signInSchema>;
 export function SignInForm() {
   const form = useForm({
@@ -36,7 +37,10 @@ export function SignInForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex justify-center">Login</CardTitle>
+        <CardTitle className="flex justify-center">Sign in</CardTitle>
+        <CardDescription className="flex justify-center">
+          Please enter your details
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -62,7 +66,13 @@ export function SignInForm() {
                 )}
               ></Controller>
             ))}
-            <Button>Log In</Button>
+            <Button>Sign In</Button>
+            <p className="text-sm text-center text-muted-foreground mt-4">
+              Don&apos;t have an account?{" "}
+              <Link href="/sign-up" className="underline hover:text-primary">
+                Sign up
+              </Link>
+            </p>
           </FieldGroup>
         </form>
       </CardContent>

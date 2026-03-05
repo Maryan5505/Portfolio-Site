@@ -15,7 +15,15 @@ export default function AuthLayout({
           <ArrowLeft className="size-4" />
           Back
         </Link>
-        <ThemeToggle />
+        <Link href="/">
+          <h1 className="text-3xl font-bold">
+            Port
+            <span className="text-blue-500">folio</span>
+          </h1>
+        </Link>
+        <div className="flex w-[80.52px] justify-end">
+          <ThemeToggle />
+        </div>
       </div>
       <div className="w-full max-w-md mx-auto my-auto">{children}</div>
     </div>

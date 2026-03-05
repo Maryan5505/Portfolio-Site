@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signUp } from "../../server/actions";
 import type z from "zod";
+import Link from "next/link";
 
 type SignUpValues = z.infer<typeof signUpSchema>;
 
@@ -70,6 +71,12 @@ export function SignUpForm() {
               />
             ))}
             <Button>Sign Up</Button>
+            <p className="text-sm text-center text-muted-foreground mt-4">
+              Already have an account?{" "}
+              <Link href="/sign-in" className="underline hover:text-primary">
+                Log in
+              </Link>
+            </p>
           </FieldGroup>
         </form>
       </CardContent>
