@@ -6,6 +6,7 @@ import { FieldLabel } from "../ui/field";
 import { logOut } from "@/features/auth/server/actions";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 
 interface NavbarProps {
   user: {
@@ -21,10 +22,17 @@ export function Navbar({ user }: NavbarProps) {
     <nav className="w-full py-5 flex items-center justify-between">
       <div className="flex items-center gap-8">
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link href="/">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/icons/favicon-32x32.png"
+              alt="Logo"
+              width={32}
+              height={32}
+            />
+
             <h1 className="text-3xl font-bold">
               Port
-              <span className="text-blue-500">folio</span>
+              <span className="text-red-600">folio</span>
             </h1>
           </Link>
         </motion.div>

@@ -74,7 +74,7 @@ export function SignUpForm() {
             <p className="text-sm text-center text-muted-foreground mt-4">
               Already have an account?{" "}
               <Link href="/sign-in" className="underline hover:text-primary">
-                Log in
+                Sign in
               </Link>
             </p>
           </FieldGroup>
