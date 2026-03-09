@@ -4,7 +4,7 @@ import { getUserFromSession } from "./features/auth/core/session";
 const privateRoutes = ["/private"];
 const adminRoutes = ["/admin"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = (await middlewareAuth(request)) ?? NextResponse.next();
   return response;
 }
@@ -29,7 +29,6 @@ async function middlewareAuth(request: NextRequest) {
 }
 
 export const config = {
-  runtime: "nodejs",
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
