@@ -5,8 +5,8 @@ import { ThemeToggle } from "./theme-toggle";
 import { FieldLabel } from "../ui/field";
 import { logOut } from "@/features/auth/server/actions";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import Image from "next/image";
+import { toggleRole } from "@/actions/toggle-role";
 
 interface NavbarProps {
   user: {
@@ -75,11 +75,18 @@ export function Navbar({ user }: NavbarProps) {
       </div>
       {user ? (
         <div className="flex items-center gap-2">
-          <div className="flex-col">
-            <FieldLabel>Name: {user.name}</FieldLabel>
-            <FieldLabel>Email: {user.email}</FieldLabel>
-            <FieldLabel>User id: {user.id}</FieldLabel>
-            <FieldLabel>User role: {user.role}</FieldLabel>
+          <div className="flex items-center gap-2">
+            <div className="flex-col">
+              <FieldLabel>Name: {user.name}</FieldLabel>
+              <FieldLabel>Email: {user.email}</FieldLabel>
+              <FieldLabel>User id: {user.id}</FieldLabel>
+              <FieldLabel>User role: {user.role}</FieldLabel>
+            </div>
+            <form action={toggleRole}>
+              <Button className={buttonVariants({ variant: "ghost" })}>
+                Toggle role
+              </Button>
+            </form>
           </div>
           <form action={logOut}>
             <Button className={buttonVariants()}>Log out</Button>
