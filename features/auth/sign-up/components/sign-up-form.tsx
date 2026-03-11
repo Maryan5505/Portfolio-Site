@@ -101,21 +101,22 @@ export function SignUpForm() {
             <FiChevronLeft size={20} />
             Back
           </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onNext}
-            disabled={step === steps.length - 1}
-            className={`flex items-center gap-2 ${
-              step === steps.length - 1
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:scale-105 transition-transform duration-200"
-            }`}
-          >
-            Next
-            <FiChevronRight size={20} />
-          </Button>
+          {step === steps.length - 1 ? null : (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onNext}
+              disabled={step === steps.length - 1}
+              className={`flex items-center gap-2 ${
+                step === steps.length - 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:scale-105 transition-transform duration-200"
+              }`}
+            >
+              Next
+              <FiChevronRight size={20} />
+            </Button>
+          )}
         </div>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="p-8 pt-0">
@@ -179,7 +180,7 @@ export function SignUpForm() {
               >
                 <Button
                   type="submit"
-                  className={buttonVariants({ variant: "secondary" })}
+                  className={buttonVariants({ variant: "ghost" })}
                   style={{
                     maxWidth: 300,
                     width: "100%",
