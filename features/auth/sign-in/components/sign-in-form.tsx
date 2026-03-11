@@ -35,7 +35,7 @@ export function SignInForm() {
     await signIn(values);
   };
   return (
-    <Card>
+    <Card className="max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="flex justify-center">Sign in</CardTitle>
         <CardDescription className="flex justify-center">

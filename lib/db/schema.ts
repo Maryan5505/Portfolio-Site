@@ -14,12 +14,25 @@ export const userRoleEnum = pgEnum("user_roles", userRoles);
 
 export const UserTable = pgTable("users", {
   id: uuid().primaryKey().defaultRandom(),
+
   name: text().notNull(),
+  surname: text(),
+
+  username: text().notNull().unique(),
+
   email: text().notNull().unique(),
+
+  phone: text(),
+  country: text(),
+  hobby: text(),
+
   password: text(),
   salt: text(),
+
   role: userRoleEnum().notNull().default("user"),
+
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+
   updatedAt: timestamp({ withTimezone: true })
     .notNull()
     .defaultNow()

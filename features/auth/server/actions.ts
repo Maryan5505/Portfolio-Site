@@ -52,13 +52,18 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
   try {
     const salt = generateSalt();
     const hashedPassword = await hashPassword(data.password, salt);
-    console.log(hashedPassword);
     const [user] = await db
       .insert(UserTable)
       .values({
         name: data.name,
+        surname: data.surname,
+        username: data.username,
         email: data.email,
+        phone: data.phone,
+        country: data.country,
+        hobby: data.hobby,
         password: hashedPassword,
+        role: "user",
         salt,
       })
       .returning({ id: UserTable.id, role: UserTable.role });
