@@ -51,7 +51,6 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
   if (existingUser != null) return "Acount already exist for this email";
   try {
     const salt = generateSalt();
-    console.log("before hached");
     const hashedPassword = await hashPassword(data.password, salt);
     console.log(hashedPassword);
     const [user] = await db
