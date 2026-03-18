@@ -5,7 +5,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { UserAvatarDropdown } from "./user-avatar-dropdown";
-import { Shield, Sparkles } from "lucide-react";
+import { Shield } from "lucide-react";
 
 interface NavbarProps {
   user: {
@@ -106,7 +106,7 @@ export function Navbar({ user }: NavbarProps) {
               >
                 <Link
                   href="/admin"
-                  className="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-xl border border-red-500/30 bg-gradient-to-r from-red-500/90 via-rose-500/90 to-red-600/90 px-4 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(239,68,68,0.25)] transition-all duration-300 hover:shadow-[0_12px_30px_rgba(239,68,68,0.35)] dark:border-red-400/30"
+                  className="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-xl border border-red-500/30 bg-linear-to-r from-red-500/90 via-rose-500/90 to-red-600/90 px-4 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(239,68,68,0.25)] transition-all duration-300 hover:shadow-[0_12px_30px_rgba(239,68,68,0.35)] dark:border-red-400/30"
                 >
                   <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_45%)] opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
                   <span className="relative z-10 flex items-center gap-2">

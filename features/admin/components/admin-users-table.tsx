@@ -9,7 +9,6 @@ import {
   Phone,
   Globe,
   Heart,
-  ArrowUpDown,
   ArrowUp,
   ArrowDown,
   Search,
@@ -177,7 +176,7 @@ export default function AdminUsersTable({
                     transition={{ delay: index * 0.03, duration: 0.2 }}
                     className={`cursor-pointer ${
                       isCurrentUser
-                        ? "border-b border-red-500/20 bg-gradient-to-r from-red-500/[0.07] via-red-500/[0.03] to-transparent ring-1 ring-inset ring-red-500/10 transition-all hover:from-red-500/[0.10] hover:via-red-500/[0.05]"
+                        ? "border-b border-red-500/20 bg-linear-to-r from-red-500/[0.07] via-red-500/3 to-transparent ring-1 ring-inset ring-red-500/10 transition-all hover:from-red-500/10 hover:via-red-500/5"
                         : "border-b border-border/40 transition-colors hover:bg-muted/20"
                     }`}
                   >
