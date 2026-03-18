@@ -61,7 +61,7 @@ export function UserAvatarDropdown({ user }: UserAvatarDropdownProps) {
               Profile
             </Link>
             <Link
-              href="/private/settings"
+              href="/settings"
               className="px-4 py-2 mx-2 my-1 rounded-lg text-center font-medium dark:hover:bg-gray-700 hover:bg-gray-200 transition-colors"
               onClick={() => setOpen(false)}
             >

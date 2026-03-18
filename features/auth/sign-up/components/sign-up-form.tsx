@@ -92,7 +92,7 @@ export function SignUpForm() {
             variant="outline"
             onClick={onBack}
             disabled={step === 0}
-            className={`flex items-center gap-2 ${
+            className={`flex items-center gap-2 cursor-pointer ${
               step === 0
                 ? "opacity-50 cursor-not-allowed"
                 : "hover:scale-105 transition-transform duration-200"
@@ -107,7 +107,7 @@ export function SignUpForm() {
               variant="outline"
               onClick={onNext}
               disabled={step === steps.length - 1}
-              className={`flex items-center gap-2 ${
+              className={`flex items-center gap-2 cursor-pointer ${
                 step === steps.length - 1
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 transition-transform duration-200"
