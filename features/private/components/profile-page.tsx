@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Mail,
   Shield,
@@ -11,6 +11,12 @@ import {
   AtSign,
   Fingerprint,
 } from "lucide-react";
+import { formatRole, formatValue, getFullName, getInitials } from "../utils";
+import { containerVariants, itemVariants } from "../constants";
+import UserInfoCard from "./user-info-card";
+import UserBadgeLabel from "./user-badge-label";
+import UserInfoMiniCard from "./user-info-mini-card";
+import UserProfileRowInfo from "./user-profile-row-info";
 
 interface UserProfilePageProps {
   user: {
@@ -24,49 +30,6 @@ interface UserProfilePageProps {
     hobby: string | null;
     role: "user" | "admin";
   } | null;
-}
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut" as const,
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.45,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
-function getInitials(name?: string | null, surname?: string | null) {
-  const first = name?.trim()?.[0] ?? "";
-  const second = surname?.trim()?.[0] ?? "";
-  return `${first}${second}`.toUpperCase() || "U";
-}
-
-function getFullName(name: string, surname: string | null) {
-  return [name, surname].filter(Boolean).join(" ");
-}
-
-function formatRole(role: "user" | "admin") {
-  return role === "admin" ? "Administrator" : "User";
-}
-
-function formatValue(value: string | null) {
-  return value?.trim() ? value : "Not provided";
 }
 
 export default function UserProfilePage({ user }: UserProfilePageProps) {
@@ -141,22 +104,22 @@ export default function UserProfilePage({ user }: UserProfilePageProps) {
               variants={itemVariants}
               className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
             >
-              <InfoCard
+              <UserInfoCard
                 icon={<UserIcon className="h-5 w-5" />}
                 label="Full name"
                 value={fullName}
               />
-              <InfoCard
+              <UserInfoCard
                 icon={<Mail className="h-5 w-5" />}
                 label="Email"
                 value={user.email}
               />
-              <InfoCard
+              <UserInfoCard
                 icon={<AtSign className="h-5 w-5" />}
                 label="Username"
                 value={`@${user.username}`}
               />
-              <InfoCard
+              <UserInfoCard
                 icon={<Shield className="h-5 w-5" />}
                 label="Role"
                 value={formatRole(user.role)}
@@ -180,18 +143,33 @@ export default function UserProfilePage({ user }: UserProfilePageProps) {
             </div>
 
             <div className="space-y-4">
-              <ProfileRow label="User ID" value={user.id} mono />
-              <ProfileRow label="First name" value={user.name} />
-              <ProfileRow label="Surname" value={formatValue(user.surname)} />
-              <ProfileRow label="Username" value={`@${user.username}`} />
-              <ProfileRow label="Email address" value={user.email} />
-              <ProfileRow
+              <UserProfileRowInfo label="User ID" value={user.id} mono />
+              <UserProfileRowInfo label="First name" value={user.name} />
+              <UserProfileRowInfo
+                label="Surname"
+                value={formatValue(user.surname)}
+              />
+              <UserProfileRowInfo
+                label="Username"
+                value={`@${user.username}`}
+              />
+              <UserProfileRowInfo label="Email address" value={user.email} />
+              <UserProfileRowInfo
                 label="Phone number"
                 value={formatValue(user.phone)}
               />
-              <ProfileRow label="Country" value={formatValue(user.country)} />
-              <ProfileRow label="Hobby" value={formatValue(user.hobby)} />
-              <ProfileRow label="Access level" value={formatRole(user.role)} />
+              <UserProfileRowInfo
+                label="Country"
+                value={formatValue(user.country)}
+              />
+              <UserProfileRowInfo
+                label="Hobby"
+                value={formatValue(user.hobby)}
+              />
+              <UserProfileRowInfo
+                label="Access level"
+                value={formatRole(user.role)}
+              />
             </div>
           </motion.div>
 
@@ -235,9 +213,9 @@ export default function UserProfilePage({ user }: UserProfilePageProps) {
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <Badge>{formatRole(user.role)}</Badge>
-                  <Badge>{formatValue(user.country)}</Badge>
-                  <Badge>ID: {user.id.slice(0, 8)}...</Badge>
+                  <UserBadgeLabel>{formatRole(user.role)}</UserBadgeLabel>
+                  <UserBadgeLabel>{formatValue(user.country)}</UserBadgeLabel>
+                  <UserBadgeLabel>ID: {user.id.slice(0, 8)}...</UserBadgeLabel>
                 </div>
               </motion.div>
             </motion.div>
@@ -256,22 +234,22 @@ export default function UserProfilePage({ user }: UserProfilePageProps) {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <MiniInfoCard
+                <UserInfoMiniCard
                   icon={<Phone className="h-4 w-4" />}
                   label="Phone"
                   value={formatValue(user.phone)}
                 />
-                <MiniInfoCard
+                <UserInfoMiniCard
                   icon={<Globe className="h-4 w-4" />}
                   label="Country"
                   value={formatValue(user.country)}
                 />
-                <MiniInfoCard
+                <UserInfoMiniCard
                   icon={<Heart className="h-4 w-4" />}
                   label="Hobby"
                   value={formatValue(user.hobby)}
                 />
-                <MiniInfoCard
+                <UserInfoMiniCard
                   icon={<Shield className="h-4 w-4" />}
                   label="Role"
                   value={formatRole(user.role)}
@@ -282,88 +260,5 @@ export default function UserProfilePage({ user }: UserProfilePageProps) {
         </div>
       </motion.div>
     </section>
-  );
-}
-
-function InfoCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group rounded-3xl border border-border/60 bg-background/80 p-4 shadow-sm"
-    >
-      <div className="mb-3 inline-flex rounded-2xl bg-primary/10 p-2.5 text-primary transition-transform duration-300 group-hover:scale-105">
-        {icon}
-      </div>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="mt-1 break-all text-base font-semibold text-foreground">
-        {value}
-      </p>
-    </motion.div>
-  );
-}
-
-function MiniInfoCard({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <motion.div
-      whileHover={{ y: -3 }}
-      transition={{ duration: 0.22, ease: "easeOut" }}
-      className="rounded-2xl border border-border/60 bg-muted/25 p-4"
-    >
-      <div className="mb-2 inline-flex rounded-xl bg-primary/10 p-2 text-primary">
-        {icon}
-      </div>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="mt-1 break-words text-sm font-medium text-foreground">
-        {value}
-      </p>
-    </motion.div>
-  );
-}
-
-function ProfileRow({
-  label,
-  value,
-  mono = false,
-}: {
-  label: string;
-  value: string;
-  mono?: boolean;
-}) {
-  return (
-    <div className="flex flex-col gap-1 rounded-2xl border border-border/50 bg-muted/25 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span
-        className={`break-all text-sm font-medium text-foreground ${
-          mono ? "font-mono" : ""
-        }`}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
-
-function Badge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground">
-      {children}
-    </span>
   );
 }
