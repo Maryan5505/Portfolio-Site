@@ -14,11 +14,15 @@ export default async function AdminPage() {
   return (
     <section className="min-h-[calc(100vh-80px)] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Panel</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Manage and review all registered users.
-          </p>
+        <div className="flex justify-center items-center">
+          <div className="flex-col">
+            <h1 className="text-3xl font-bold tracking-tight text-center">
+              Admin Panel
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Manage and review all registered users.
+            </p>
+          </div>
         </div>
 
         <AdminUsersTable users={users} currentUserId={currentUser.id} />
