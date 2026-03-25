@@ -6,53 +6,6 @@ import { eq } from "drizzle-orm";
 import { UserTable } from "@/lib/db/schema";
 import { redirect } from "next/navigation";
 
-type FullUser = Exclude<
-  Awaited<ReturnType<typeof getUserFromDb>>,
-  undefined | null
->;
-
-type User = Exclude<
-  Awaited<ReturnType<typeof getUserFromSession>>,
-  undefined | null
->;
-function _getCurrentUser(options: {
-  withFullUser: true;
-  redirectIfNotFound: true;
-}): Promise<FullUser>;
-function _getCurrentUser(options: {
-  withFullUser: true;
-  redirectIfNotFound?: false;
-}): Promise<FullUser | null>;
-function _getCurrentUser(options: {
-  withFullUser?: false;
-  redirectIfNotFound: true;
-}): Promise<User>;
-function _getCurrentUser(options?: {
-  withFullUser?: false;
-  redirectIfNotFound?: false;
-}): Promise<User | null>;
-async function _getCurrentUser({
-  withFullUser = false,
-  redirectIfNotFound = false,
-} = {}) {
-  const user = await getUserFromSession(await cookies());
-
-  if (user == null) {
-    if (redirectIfNotFound) return redirect("/sign-in");
-    return null;
-  }
-
-  if (withFullUser) {
-    const fullUser = await getUserFromDb(user.id);
-    if (fullUser == null) throw new Error("User not found in database");
-    return fullUser;
-  }
-
-  return user;
-}
-
-export const getCurrentUser = cache(_getCurrentUser);
-
 function getUserFromDb(id: string) {
   return db.query.UserTable.findFirst({
     columns: {
@@ -69,3 +22,35 @@ function getUserFromDb(id: string) {
     where: eq(UserTable.id, id),
   });
 }
+
+type FullUser = Exclude<
+  Awaited<ReturnType<typeof getUserFromDb>>,
+  undefined | null
+>;
+
+function _getCurrentUser(options: {
+  redirectIfNotFound: true;
+}): Promise<FullUser>;
+function _getCurrentUser(options?: {
+  redirectIfNotFound?: false;
+}): Promise<FullUser | null>;
+
+async function _getCurrentUser({ redirectIfNotFound = false } = {}) {
+  const sessionUser = await getUserFromSession(await cookies());
+
+  if (sessionUser == null) {
+    if (redirectIfNotFound) return redirect("/sign-in");
+    return null;
+  }
+
+  const fullUser = await getUserFromDb(sessionUser.id);
+
+  if (fullUser == null) {
+    if (redirectIfNotFound) return redirect("/sign-in");
+    return null;
+  }
+
+  return fullUser;
+}
+
+export const getCurrentUser = cache(_getCurrentUser);

@@ -1,8 +1,11 @@
+"use server";
+import { getCurrentUser } from "@/features/auth/server/currentUser";
 import { db } from "@/lib/db/db";
-import { UserTable } from "@/lib/db/schema";
+import { UserTable, type UserRole } from "@/lib/db/schema";
 import { desc, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
-export function getAllUsers() {
+export async function getAllUsers() {
   return db.query.UserTable.findMany({
     columns: {
       id: true,
@@ -38,4 +41,16 @@ export async function findUserById(id: string) {
   });
 
   return user;
+}
+
+export async function updateUserRole(userId: string, role: UserRole) {
+  const currentUser = await getCurrentUser({ redirectIfNotFound: true });
+
+  if (currentUser.role !== "admin") {
+    throw new Error("Unauthorized");
+  }
+
+  await db.update(UserTable).set({ role }).where(eq(UserTable.id, userId));
+
+  revalidatePath("/admin");
 }
