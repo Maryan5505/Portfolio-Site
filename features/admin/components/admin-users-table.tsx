@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
-  Shield,
   User as UserIcon,
   Mail,
   Phone,
@@ -14,6 +13,7 @@ import {
   Search,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { UserRoleSelect } from "./user-role-select";
 
 type AdminUsersTableProps = {
   users: {
@@ -235,16 +235,11 @@ export default function AdminUsersTable({
                     </td>
 
                     <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
-                          user.role === "admin"
-                            ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
-                            : "bg-primary/10 text-primary"
-                        }`}
-                      >
-                        <Shield className="h-3.5 w-3.5" />
-                        {user.role}
-                      </span>
+                      <UserRoleSelect
+                        userId={user.id}
+                        role={user.role}
+                        isCurrentUser={isCurrentUser}
+                      />
                     </td>
 
                     <td className="px-6 py-4 text-muted-foreground">

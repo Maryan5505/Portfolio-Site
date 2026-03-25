@@ -21,11 +21,13 @@ export async function signIn(unsafeData: z.infer<typeof signInSchema>) {
   if (!success) return "Unable to Log in";
 
   const user = await db.query.UserTable.findFirst({
-    columns: { password: true, salt: true, id: true, email: true, role: true },
+    columns: { password: true, salt: true, id: true, email: true },
     where: eq(UserTable.email, data.email),
   });
-  if (user == null || user.password == null || user.salt == null)
+
+  if (user == null || user.password == null || user.salt == null) {
     return "Unable to login";
+  }
 
   const isCorrectPassword = await comparePasswords({
     hashedPassword: user.password,
@@ -35,7 +37,7 @@ export async function signIn(unsafeData: z.infer<typeof signInSchema>) {
 
   if (!isCorrectPassword) return "Uncorrect password";
 
-  await createUserSession(user, await cookies());
+  await createUserSession({ id: user.id }, await cookies());
   redirect("/");
 }
 
@@ -49,9 +51,11 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
   });
 
   if (existingUser != null) return "Acount already exist for this email";
+
   try {
     const salt = generateSalt();
     const hashedPassword = await hashPassword(data.password, salt);
+
     const [user] = await db
       .insert(UserTable)
       .values({
@@ -66,12 +70,15 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
         role: "user",
         salt,
       })
-      .returning({ id: UserTable.id, role: UserTable.role });
+      .returning({ id: UserTable.id });
+
     if (user == null) return "Unable to Sign Up";
-    await createUserSession(user, await cookies());
+
+    await createUserSession({ id: user.id }, await cookies());
   } catch {
     return "Unable to Sign Up";
   }
+
   redirect("/");
 }
 
